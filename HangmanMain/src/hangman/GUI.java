@@ -13,14 +13,13 @@ import javax.swing.JOptionPane;
  */
 public class GUI extends javax.swing.JFrame {
 
-    Hangman hangman = new Hangman();
+    Hangman hangman = new Hangman(); //variable hangman class
     
-    int index = hangman.index;
-    int atempt = 8;
-    String[] guess;
-    String compareWord;
-    String guessString;
-    String atemptMessage;
+    public int index = hangman.indexWordBanks;      //variable index
+    public int playerLife = 8;      //variable player life default
+    public String compareWord;      //variable compare word
+    public String guessString;      //variable guess string
+    public String atemptMessage;    //variable atemp message
    
 
     /**
@@ -28,31 +27,33 @@ public class GUI extends javax.swing.JFrame {
      */
     public GUI() {
         initComponents();
+        buttonRestart.setVisible(false);
     }
-
+    
+    //set default value in GUI method
     public void defaultResult() 
     {
-        atempt = 8;
+        playerLife = 8;
         jLabelGuess.setOpaque(true);
         jLabelGuess.setText("");
-        jLabelGuess.setText(hangman.resultstring);
-        jLabelAtempt.setText(atempt + "");
+        jLabelGuess.setText(hangman.emptyBlankString);
+        jLabelAtempt.setText(playerLife + "");
+        
+    }//End default value method
 
-    }
-
-    public int checkAttemp()
+    //check play life method
+    public int checkPlayerLife()
     {
-        if(atempt == 0)
+        if(playerLife == 0)
         {
             atemptMessage = "You lose, no more attempt!";
             guessButtonVisible();
-            
             return 0;
         }
         return 1;
-    }
+    }//End check player life method
     
-    
+    //Set guess button visible method
     public void guessButtonVisible()
     {
        ButtonA.setVisible(false);
@@ -81,8 +82,9 @@ public class GUI extends javax.swing.JFrame {
        ButtonX.setVisible(false);
        ButtonY.setVisible(false);
        ButtonZ.setVisible(false);
-    }
+    }//End gues buton visible method
     
+    //set guess button invisible
     public void guessButtonInVisible()
     {
        ButtonA.setVisible(true);
@@ -111,37 +113,39 @@ public class GUI extends javax.swing.JFrame {
        ButtonX.setVisible(true);
        ButtonY.setVisible(true);
        ButtonZ.setVisible(true);
-    }
+    }//End set guess button invisible
     
+    //compare word method
     public void compareWord(String guessWord) 
     {
-        if(checkAttemp() == 1)
+        if(checkPlayerLife() == 1)
         {
             hangman.stringbuilder.setLength(0);
             hangman.stringbuilder = new StringBuilder();
             boolean flag = false;
-            for (int i = 0; i < hangman.answer.length; i++) 
+            for (int i = 0; i < hangman.answerArray.length; i++) 
             {
-                System.out.println(hangman.answer[i]);
-                if (guessWord.equals(hangman.answer[i].toString())) 
+                
+                if (guessWord.equals(hangman.answerArray[i].toString())) 
                 {
-                    hangman.resultArray[i] = guessWord;
+                    hangman.emptyArray[i] = guessWord;
                     flag = true;
                 }
-                hangman.stringbuilder.append(hangman.resultArray[i]);
+                hangman.stringbuilder.append(hangman.emptyArray[i]);
             }
             if (!flag) {
-                atempt--;
+                playerLife--;
             }
-            hangman.resultstring = hangman.stringbuilder.toString();
-            guessString = hangman.resultstring;
+            hangman.emptyBlankString = hangman.stringbuilder.toString();
+            guessString = hangman.emptyBlankString;
         }
         else
         {
             JOptionPane.showMessageDialog(null, atemptMessage, "Information", JOptionPane.INFORMATION_MESSAGE);
+            buttonRestart.setVisible(true);
         }
 
-    }
+    }//End compare word method
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -185,7 +189,7 @@ public class GUI extends javax.swing.JFrame {
         LabelLives = new javax.swing.JLabel();
         jLabelAtempt = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        ButtonRestart = new javax.swing.JButton();
+        buttonRestart = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -478,10 +482,10 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel2.setText("Player's lifes: ");
 
-        ButtonRestart.setText("Restart");
-        ButtonRestart.addActionListener(new java.awt.event.ActionListener() {
+        buttonRestart.setText("Restart");
+        buttonRestart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ButtonRestartActionPerformed(evt);
+                buttonRestartActionPerformed(evt);
             }
         });
 
@@ -492,7 +496,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(ButtonRestart)
+                    .addComponent(buttonRestart)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelAtempt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -511,11 +515,9 @@ public class GUI extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(jLabelAtempt, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ButtonRestart))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(LabelLives)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(buttonRestart))
+                    .addComponent(LabelLives))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -562,49 +564,49 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonD.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonDActionPerformed
 
     private void ButtonHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonHActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonH.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonHActionPerformed
 
     private void ButtonJActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonJActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonJ.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonJActionPerformed
 
     private void ButtonOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonO.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonOActionPerformed
 
     private void ButtonSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonSActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonS.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonSActionPerformed
 
     private void ButtonNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonNActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonN.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonNActionPerformed
 
     private void ButtonKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonKActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonK.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonKActionPerformed
 
     private void ButtonYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonYActionPerformed
@@ -623,38 +625,38 @@ public class GUI extends javax.swing.JFrame {
         }
         if(!flag)
         {
-            atempt--;
+            playerLife--;
         }
-        hangman.resultstring = hangman.stringbuilder.toString();
-        jLabelGuess.setText(hangman.resultstring);
-        jLabelAtempt.setText(atempt +"");
+        hangman.emptyBlankString = hangman.stringbuilder.toString();
+        jLabelGuess.setText(hangman.emptyBlankString);
+        jLabelAtempt.setText(playerLife +"");
          */
         compareWord(ButtonY.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonYActionPerformed
 
     private void ButtonUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonUActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonU.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonUActionPerformed
 
     private void ButtonXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonXActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonX.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonXActionPerformed
 
-    private void ButtonRestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonRestartActionPerformed
+    private void buttonRestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRestartActionPerformed
         // TODO add your handling code here:
         hangman.randomWords();
         guessButtonInVisible();
-        ButtonRestart.equals(false);
+        buttonRestart.equals(false);
         defaultResult();
-    }//GEN-LAST:event_ButtonRestartActionPerformed
+    }//GEN-LAST:event_buttonRestartActionPerformed
 
     private void ButtonAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAActionPerformed
         // TODO add your handling code here:
@@ -674,12 +676,12 @@ public class GUI extends javax.swing.JFrame {
             }
             hangman.stringbuilder.append(guess[i]);
         }
-        hangman.resultstring = hangman.stringbuilder.toString();
-        jLabelGuess.setText(hangman.resultstring);
+        hangman.emptyBlankString = hangman.stringbuilder.toString();
+        jLabelGuess.setText(hangman.emptyBlankString);
          */
         compareWord(ButtonA.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
         
     }//GEN-LAST:event_ButtonAActionPerformed
 
@@ -701,12 +703,12 @@ public class GUI extends javax.swing.JFrame {
                 hangman.stringbuilder.append(hangman.resultarray[i]);
             }
         }
-        hangman.resultstring = hangman.stringbuilder.toString();
-        jLabelGuess.setText(hangman.resultstring);
+        hangman.emptyBlankString = hangman.stringbuilder.toString();
+        jLabelGuess.setText(hangman.emptyBlankString);
          */
         compareWord(ButtonB.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonBActionPerformed
 
     private void ButtonZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonZActionPerformed
@@ -727,104 +729,104 @@ public class GUI extends javax.swing.JFrame {
             }
             hangman.stringbuilder.append(guess[i]);
         }
-        hangman.resultstring = hangman.stringbuilder.toString();
-        jLabelGuess.setText(hangman.resultstring);
+        hangman.emptyBlankString = hangman.stringbuilder.toString();
+        jLabelGuess.setText(hangman.emptyBlankString);
          */
 
         compareWord(ButtonZ.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonZActionPerformed
 
     private void ButtonCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonC.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonCActionPerformed
 
     private void ButtonEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonEActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonE.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonEActionPerformed
 
     private void ButtonFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonFActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonF.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonFActionPerformed
 
     private void ButtonGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonGActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonG.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonGActionPerformed
 
     private void ButtonIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonIActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonI.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonIActionPerformed
 
     private void ButtonLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonLActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonL.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonLActionPerformed
 
     private void ButtonMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonMActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonM.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonMActionPerformed
 
     private void ButtonPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonPActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonP.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonPActionPerformed
 
     private void ButtonQActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonQActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonQ.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonQActionPerformed
 
     private void ButtonRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonRActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonR.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonRActionPerformed
 
     private void ButtonTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonTActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonT.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonTActionPerformed
 
     private void ButtonVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonVActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonV.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonVActionPerformed
 
     private void ButtonWActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonWActionPerformed
         // TODO add your handling code here:
         compareWord(ButtonW.getText().toString());
         jLabelGuess.setText(guessString);
-        jLabelAtempt.setText(atempt + " ");
+        jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonWActionPerformed
 
     /**
@@ -869,41 +871,41 @@ public class GUI extends javax.swing.JFrame {
             public void run() {
 
                 new GUI().setVisible(true);
-
+                
             }
         });
 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton ButtonA;
-    private javax.swing.JButton ButtonB;
-    private javax.swing.JButton ButtonC;
-    private javax.swing.JButton ButtonD;
-    private javax.swing.JButton ButtonE;
-    private javax.swing.JButton ButtonF;
-    private javax.swing.JButton ButtonG;
-    private javax.swing.JButton ButtonH;
-    private javax.swing.JButton ButtonI;
-    private javax.swing.JButton ButtonJ;
-    private javax.swing.JButton ButtonK;
-    private javax.swing.JButton ButtonL;
-    private javax.swing.JButton ButtonM;
-    private javax.swing.JButton ButtonN;
-    private javax.swing.JButton ButtonO;
-    private javax.swing.JButton ButtonP;
-    private javax.swing.JButton ButtonQ;
-    private javax.swing.JButton ButtonR;
-    private javax.swing.JButton ButtonRestart;
-    private javax.swing.JButton ButtonS;
-    private javax.swing.JButton ButtonT;
-    private javax.swing.JButton ButtonU;
-    private javax.swing.JButton ButtonV;
-    private javax.swing.JButton ButtonW;
-    private javax.swing.JButton ButtonX;
-    private javax.swing.JButton ButtonY;
-    private javax.swing.JButton ButtonZ;
+    public javax.swing.JButton ButtonA;
+    public javax.swing.JButton ButtonB;
+    public javax.swing.JButton ButtonC;
+    public javax.swing.JButton ButtonD;
+    public javax.swing.JButton ButtonE;
+    public javax.swing.JButton ButtonF;
+    public javax.swing.JButton ButtonG;
+    public javax.swing.JButton ButtonH;
+    public javax.swing.JButton ButtonI;
+    public javax.swing.JButton ButtonJ;
+    public javax.swing.JButton ButtonK;
+    public javax.swing.JButton ButtonL;
+    public javax.swing.JButton ButtonM;
+    public javax.swing.JButton ButtonN;
+    public javax.swing.JButton ButtonO;
+    public javax.swing.JButton ButtonP;
+    public javax.swing.JButton ButtonQ;
+    public javax.swing.JButton ButtonR;
+    public javax.swing.JButton ButtonS;
+    public javax.swing.JButton ButtonT;
+    public javax.swing.JButton ButtonU;
+    public javax.swing.JButton ButtonV;
+    public javax.swing.JButton ButtonW;
+    public javax.swing.JButton ButtonX;
+    public javax.swing.JButton ButtonY;
+    public javax.swing.JButton ButtonZ;
     private javax.swing.JLabel LabelLives;
+    private javax.swing.JButton buttonRestart;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabelAtempt;

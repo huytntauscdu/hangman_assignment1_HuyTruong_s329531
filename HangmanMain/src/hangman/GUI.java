@@ -19,9 +19,10 @@ public class GUI extends javax.swing.JFrame {
     public int playerLife = 8;      //variable player life default
     public String compareWord;      //variable compare word
     public String guessString;      //variable guess string
-    public String atemptMessage;    //variable atemp message
+    public String messageBox;    //variable atemp message
+    public int count = 0;
+  
    
-
     /**
      * Creates new form GUI
      */
@@ -46,7 +47,6 @@ public class GUI extends javax.swing.JFrame {
     {
         if(playerLife == 0)
         {
-            atemptMessage = "You lose, no more attempt!";
             guessButtonVisible();
             return 0;
         }
@@ -130,6 +130,8 @@ public class GUI extends javax.swing.JFrame {
                 {
                     hangman.emptyArray[i] = guessWord;
                     flag = true;
+                    count++;
+                    System.out.println(count);
                 }
                 hangman.stringbuilder.append(hangman.emptyArray[i]);
             }
@@ -141,11 +143,25 @@ public class GUI extends javax.swing.JFrame {
         }
         else
         {
-            JOptionPane.showMessageDialog(null, atemptMessage, "Information", JOptionPane.INFORMATION_MESSAGE);
+            messageBox = "You lose, no more attempt!";
+            JOptionPane.showMessageDialog(null, messageBox, "Information", JOptionPane.INFORMATION_MESSAGE);
             buttonRestart.setVisible(true);
+            messageBox = "";
         }
 
     }//End compare word method
+    
+    //method check count when guess press one word is correct
+    public void checkCountGuessSuccess()
+    {
+        if(count == hangman.answerArray.length)
+        {
+            messageBox = "Congratulation! You have the correct answer!";
+            guessButtonVisible();
+            JOptionPane.showMessageDialog(null, messageBox, "Information", JOptionPane.INFORMATION_MESSAGE);
+            buttonRestart.setVisible(true);
+        }
+    }//End check count method
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -564,6 +580,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonD.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonDActionPerformed
 
@@ -571,6 +588,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonH.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonHActionPerformed
 
@@ -578,6 +596,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonJ.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonJActionPerformed
 
@@ -585,6 +604,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonO.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonOActionPerformed
 
@@ -592,6 +612,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonS.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonSActionPerformed
 
@@ -599,6 +620,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonN.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonNActionPerformed
 
@@ -606,33 +628,15 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonK.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonKActionPerformed
 
     private void ButtonYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonYActionPerformed
         // TODO add your handling code here:
-        /*hangman.stringbuilder.setLength(0);
-        hangman.stringbuilder = new StringBuilder();
-        boolean flag = false;
-        for(int i= 0; i < hangman.answer.length; i++)
-        {
-            if(jButtonY.getText().toString().equals(hangman.answer[i].toString()))
-            {
-                hangman.resultarray[i] = jButtonY.getText().toString();
-                flag = true;
-            }
-            hangman.stringbuilder.append(hangman.resultarray[i]);
-        }
-        if(!flag)
-        {
-            playerLife--;
-        }
-        hangman.emptyBlankString = hangman.stringbuilder.toString();
-        jLabelGuess.setText(hangman.emptyBlankString);
-        jLabelAtempt.setText(playerLife +"");
-         */
         compareWord(ButtonY.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonYActionPerformed
 
@@ -640,6 +644,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonU.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonUActionPerformed
 
@@ -647,6 +652,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonX.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonXActionPerformed
 
@@ -660,81 +666,26 @@ public class GUI extends javax.swing.JFrame {
 
     private void ButtonAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAActionPerformed
         // TODO add your handling code here:
-        /*hangman.stringbuilder.setLength(0);
-        hangman.stringbuilder = new StringBuilder();
-        guess = new String[hangman.answer.length];
-        for(int i= 0; i < hangman.answer.length; i++)
-        {
-            if(ButtonA.getText().toString().equals(hangman.answer[i].toString()))
-            {
-                guess[i] = ButtonA.getText().toString();
-            }
-            else
-            {
-                guess[i] = " ___ ";
-                
-            }
-            hangman.stringbuilder.append(guess[i]);
-        }
-        hangman.emptyBlankString = hangman.stringbuilder.toString();
-        jLabelGuess.setText(hangman.emptyBlankString);
-         */
         compareWord(ButtonA.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
         
     }//GEN-LAST:event_ButtonAActionPerformed
 
     private void ButtonBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonBActionPerformed
         // TODO add your handling code here:
-        /*hangman.stringbuilder.setLength(0);
-        hangman.stringbuilder = new StringBuilder();
-        guess = new String[hangman.answer.length];
-        for(int i= 0; i < hangman.answer.length; i++)
-        {
-            if(jButtonB.getText().toString().equals(hangman.answer[i].toString()))
-            {
-                guess[i] = jButtonB.getText().toString();
-                hangman.stringbuilder.append(hangman.resultarray[i]);
-            }
-            else
-            {   
-                guess[i] = " ___ ";
-                hangman.stringbuilder.append(hangman.resultarray[i]);
-            }
-        }
-        hangman.emptyBlankString = hangman.stringbuilder.toString();
-        jLabelGuess.setText(hangman.emptyBlankString);
-         */
         compareWord(ButtonB.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonBActionPerformed
 
     private void ButtonZActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonZActionPerformed
         // TODO add your handling code here:
-        /*hangman.stringbuilder.setLength(0);
-        hangman.stringbuilder = new StringBuilder();
-        guess = new String[hangman.answer.length];
-        for(int i= 0; i < hangman.answer.length; i++)
-        {
-            if(jButtonZ.getText().toString().equals(hangman.answer[i].toString()))
-            {
-                guess[i] = jButtonZ.getText().toString();
-            }
-            else
-            {   
-                guess[i] = " ___ ";
-                
-            }
-            hangman.stringbuilder.append(guess[i]);
-        }
-        hangman.emptyBlankString = hangman.stringbuilder.toString();
-        jLabelGuess.setText(hangman.emptyBlankString);
-         */
-
         compareWord(ButtonZ.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonZActionPerformed
 
@@ -742,6 +693,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonC.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonCActionPerformed
 
@@ -749,6 +701,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonE.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonEActionPerformed
 
@@ -756,6 +709,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonF.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonFActionPerformed
 
@@ -763,6 +717,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonG.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonGActionPerformed
 
@@ -770,6 +725,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonI.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonIActionPerformed
 
@@ -784,6 +740,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonM.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonMActionPerformed
 
@@ -791,6 +748,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonP.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonPActionPerformed
 
@@ -798,6 +756,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonQ.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonQActionPerformed
 
@@ -812,6 +771,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonT.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonTActionPerformed
 
@@ -819,6 +779,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonV.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonVActionPerformed
 
@@ -826,6 +787,7 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         compareWord(ButtonW.getText().toString());
         jLabelGuess.setText(guessString);
+        checkCountGuessSuccess();
         jLabelAtempt.setText(playerLife + " ");
     }//GEN-LAST:event_ButtonWActionPerformed
 
@@ -856,13 +818,6 @@ public class GUI extends javax.swing.JFrame {
         }
         //</editor-fold>
         Hangman hangman = new Hangman();
-        //GUI gui = new GUI();
-        
-        
-        //jLabelAtempt.setFont(new Font("", Font.PLAIN, 20));
-        //gui.keyboardVissible();
-        //gui.jPanel1.setVisible();
-        //hangman.initialComponent();
         //GUI gui = new GUI();
         
         /* Create and display the form */

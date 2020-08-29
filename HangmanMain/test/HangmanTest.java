@@ -22,9 +22,8 @@ import java.lang.Integer;
  */
 public class HangmanTest {
     
-    public String[] wordBanks = {"flapjack", "buzzard", "knapsack"};
-    public int indexWordBanks;
-    public String[] wordAnswer;
+    String[] guessAnswer = {"A", "B"};
+
     
     Hangman hangmanClass;
     GUI guiClass;
@@ -48,11 +47,7 @@ public class HangmanTest {
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    //Test compare letter method
     @Test
     public void compareLetterFromButtons()
     {
@@ -113,6 +108,7 @@ public class HangmanTest {
     }
     
     
+    //Test check life player when press the button A
     @Test
     public void checkLifePlayer()
     {
@@ -123,5 +119,7 @@ public class HangmanTest {
         guiClass.compareWord(guiClass.ButtonA.getText());
         assertSame(tempt, guiClass.playerLife);
     }
+    
+
     
 }

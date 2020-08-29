@@ -66,7 +66,7 @@ public class Hangman {
         {
             System.out.print(emptyArray[i] + " ");
         }
-    }//en random word method
+    }//end random word method
     
     //Eandom index word banks
     public int randomIndexWordBanks()
@@ -89,8 +89,7 @@ public class Hangman {
         gui.defaultResult();
         gui.setVisible(true);
         gui.setLocationRelativeTo(null);
-        
-
+       
         
     }
     
